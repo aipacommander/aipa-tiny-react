@@ -22,13 +22,13 @@
 
 ## Step 0: 環境構築 【C】
 
-- [ ] T0-1 `npm init` と依存追加（vite / typescript / vitest / happy-dom）
-- [ ] T0-2 `tsconfig.json`（strict, jsx: preserve, ES2022）
-- [ ] T0-3 `vite.config.ts`（esbuild の jsxFactory / jsxFragmentFactory、vitest の happy-dom 設定）
-- [ ] T0-4 `src/tiny-react/types.ts` — VNode / Instance / Hook の型定義（**仕様として Claude が用意**）
-- [ ] T0-5 `index.html` と `src/demo/main.tsx` のプレースホルダ
-- [ ] T0-6 `tests/00-setup.test.ts` — 疎通確認（happy-dom で document が触れること）
-- [ ] T0-7 `npm test` が緑になることを確認 → コミット & push
+- [x] T0-1 `npm init` と依存追加（vite 8 / typescript 7 / vitest 5 / happy-dom 20）
+- [x] T0-2 `tsconfig.json`（strict, jsx: react + jsxFactory, ES2022）
+- [x] T0-3 `vite.config.ts`（**oxc** の jsx pragma、vitest の happy-dom 設定）
+- [x] T0-4 `src/tiny-react/types.ts` — VNode / Instance / Hook の型定義（**仕様として Claude が用意**）
+- [x] T0-5 `index.html` と `src/demo/main.ts` のプレースホルダ
+- [x] T0-6 `tests/00-setup.test.ts` — 疎通確認（happy-dom で document が触れること）
+- [x] T0-7 `npm test` / `npm run typecheck` が緑になることを確認 → コミット & push
 
 受け入れ条件: `npm test` が通り、`npm run dev` でページが開く
 
@@ -120,11 +120,11 @@ microtask 後には DOM が最新になっている
 
 ## 進捗
 
-現在: **Step 0 未着手**
+現在: **Step 1 待ち（Claude が課題を用意する番）**
 
 | Step | 状態 |
 |------|------|
-| 0 環境構築 | 未着手 |
+| 0 環境構築 | 完了 |
 | 1 createElement | 未着手 |
 | 2 mount | 未着手 |
 | 3 component | 未着手 |

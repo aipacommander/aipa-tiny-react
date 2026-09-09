@@ -21,7 +21,11 @@ Preact 風の**再帰レンダラ**を採用する。Fiber（work loop / 中断�
 ```ts
 type Key = string | number;
 type ComponentFn = (props: Props) => VNode;
-type Props = Record<string, unknown> & { children: VNode[] };
+
+// 内部で扱う正規化済み props
+interface Props { [name: string]: unknown; children: VNode[] }
+// JSX でコンポーネントを書くときの props（子 1 個も許すため型を分ける。理由は §7）
+interface ComponentProps { [name: string]: unknown; children?: VNode | VNode[] }
 
 type VNode = TextVNode | ElementVNode;
 
@@ -46,7 +50,8 @@ interface TextInstance      { kind: 'text';      vnode: TextVNode;    dom: Text 
 interface HostInstance      { kind: 'host';      vnode: ElementVNode; dom: HTMLElement; children: Instance[] }
 interface ComponentInstance { kind: 'component'; vnode: ElementVNode;
                               hooks: Hook[]; hookIndex: number;
-                              child: Instance; container: HTMLElement }
+                              child: Instance | null;   // mount 完了までは null
+                              container: HTMLElement }
 ```
 
 - **VNode と Instance を分ける理由**: 実DOMと hooks の状態は「描画をまたいで生き残る」必要がある。
@@ -59,7 +64,9 @@ interface ComponentInstance { kind: 'component'; vnode: ElementVNode;
 
 - **関数コンポーネントは単一の要素を返すこと**。配列や Fragment を返した場合は例外を投げる。
   複数ルートを許すと「親DOMのどの位置に挿入するか」の計算が入り、主題から外れるため
-- `Fragment` は `createElement` の段階で子リストに平坦展開する。ツリーには残さない
+- `Fragment` は `createElement` の段階で子リストに平坦展開する。ツリーには残さない。
+  ただし TS が `<>...</>` の型を検査する都合上、`Fragment` は**関数として**定義する
+  （呼ばれることはなく、呼ばれたら例外を投げる）
 - Fragment に `key` を付けたリストは非対応
 
 ## 3. モジュール構成と責務
@@ -174,12 +181,23 @@ Step 6 の時点では同期的に再描画してよい。Step 8 でこのバッ
 ## 7. ビルド構成（Step 0 で Claude が用意）
 
 ```
-package.json   scripts: dev / build / test / test:watch
-vite.config.ts esbuild: { jsxFactory: 'createElement', jsxFragmentFactory: 'Fragment' }
-               test: { environment: 'happy-dom' }
-tsconfig.json  strict: true, jsx: 'preserve', target: ES2022, module: ESNext
+package.json   scripts: dev / build / test / test:watch / typecheck
+vite.config.ts oxc: { jsx: { runtime: 'classic', pragma: 'createElement', pragmaFrag: 'Fragment' } }
+               test: { environment: 'happy-dom', globals: true }
+tsconfig.json  strict, jsx: 'react', jsxFactory: 'createElement', jsxFragmentFactory: 'Fragment'
 index.html     demo のエントリ
 ```
+
+構築時に実機で確認して判明した点（推測ではなく検証済み）:
+
+- **Vite 8 のトランスフォーマは esbuild ではなく oxc**。`esbuild.jsxFactory` を書いても
+  「oxc options will be used」と警告が出て無視される。`oxc.jsx` に書く必要がある
+- **`JSX.ElementChildrenAttribute` を宣言しなくても TS は children を型検査する**。
+  そのため props 型を 2 つに分けた。コンポーネントの引数が `children: VNode[]` だと
+  `<Box>子ひとつ</Box>` が「配列ではない」と弾かれるため、JSX 側は `ComponentProps` を使う
+- `Fragment` の props 型に index signature があると `<></>` が
+  「Index signature is missing in type '{}'」で弾かれる。
+  よって `Fragment` の引数型は `{ children?: VNode | VNode[] }` とする
 
 `jsxInject` による自動 import は**使わない**。各ファイルで
 `import { createElement, Fragment } from '../tiny-react'` を明示的に書かせることで、

@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "strict": true,
+    "noEmit": true,
+    "skipLibCheck": true,
+    "isolatedModules": true,
+
+    // JSX は React ではなく自作の createElement に変換する。
+    // 実際の変換は esbuild(vite.config.ts) が行い、tsc は型チェックのみ担当する。
+    "jsx": "react",
+    "jsxFactory": "createElement",
+    "jsxFragmentFactory": "Fragment",
+
+    "types": ["vitest/globals"]
+  },
+  "include": ["src", "tests", "vite.config.ts"]
+}
