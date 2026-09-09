@@ -36,7 +36,7 @@
 
 ## Step 1: createElement と VNode
 
-- [ ] T1-C 課題文・テスト・スケルトン（`src/tiny-react/create-element.ts`）
+- [x] T1-C 課題文・テスト・スケルトン（`src/tiny-react/create-element.ts`）
 - [ ] T1-U 実装
 - [ ] T1-R レビューと解説
 
@@ -120,12 +120,12 @@ microtask 後には DOM が最新になっている
 
 ## 進捗
 
-現在: **Step 1 待ち（Claude が課題を用意する番）**
+現在: **Step 1 実装中（ユーザーの番）**
 
 | Step | 状態 |
 |------|------|
 | 0 環境構築 | 完了 |
-| 1 createElement | 未着手 |
+| 1 createElement | 課題提示済み・実装待ち |
 | 2 mount | 未着手 |
 | 3 component | 未着手 |
 | 4 patch | 未着手 |
