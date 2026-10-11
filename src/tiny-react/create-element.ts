@@ -1,4 +1,4 @@
-import type { ComponentFn, ElementVNode, VNode } from './types';
+import type { ComponentFn, ElementVNode, Key, Props, TextVNode, VNode } from './types';
 
 /**
  * JSX の <>...</> が変換されると createElement(Fragment, null, ...children) になる。
@@ -26,8 +26,52 @@ export function createElement(
   props: Record<string, unknown> | null,
   ...children: unknown[]
 ): ElementVNode {
-  void type;
-  void props;
-  void children;
-  throw new Error('not implemented: createElement');
+  const text = (t: string): TextVNode => {
+    return {
+      kind: 'text',
+      text: t,
+      key: null,
+    }
+  };
+  let childrenNodes: VNode[] = children
+  .flat(Infinity)
+  .filter(child => {
+    if (child === null || child === undefined) {
+      return false;
+    }
+    if (typeof child === 'boolean') {
+      return false;
+    }
+    return true;
+  })
+  .flatMap((child): unknown[] => {
+    const node = child as VNode;
+    if (node.kind === 'element' && node.type === Fragment) {
+      return node.props.children;
+    }
+    return [child];
+  })
+  .map(child => {
+    if (typeof child === 'string') {
+      return text(child);
+    }
+    if (typeof child === 'number') {
+      return text(child.toString());
+    }
+    return child as VNode;
+  });
+
+  const { key, ...rest } = (props ?? {}) as Record<string, unknown>;
+  const gotKey: Key | null = key === undefined || key === null ? null : key as Key;
+  const getProps: Props | undefined = {
+    ...rest,
+    children: childrenNodes,
+  }
+
+  return {
+    kind: 'element',
+    type,
+    key: gotKey,
+    props: getProps,
+  }
 }

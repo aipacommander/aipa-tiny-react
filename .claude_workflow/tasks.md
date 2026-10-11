@@ -37,8 +37,8 @@
 ## Step 1: createElement と VNode
 
 - [x] T1-C 課題文・テスト・スケルトン（`src/tiny-react/create-element.ts`）
-- [ ] T1-U 実装
-- [ ] T1-R レビューと解説
+- [x] T1-U 実装
+- [x] T1-R レビューと解説
 
 検証内容: children の平坦化 / 文字列・数値のテキストノード化 / `null`・`undefined`・`boolean` の除去 /
 `key` の抽出 / `Fragment` の平坦展開
@@ -120,12 +120,12 @@ microtask 後には DOM が最新になっている
 
 ## 進捗
 
-現在: **Step 1 実装中（ユーザーの番）**
+現在: **Step 1 完了。Step 2 の課題提示待ち**
 
 | Step | 状態 |
 |------|------|
 | 0 環境構築 | 完了 |
-| 1 createElement | 課題提示済み・実装待ち |
+| 1 createElement | 完了 |
 | 2 mount | 未着手 |
 | 3 component | 未着手 |
 | 4 patch | 未着手 |
