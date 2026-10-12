@@ -1,5 +1,16 @@
+import { Fragment } from './create-element';
 import { createDom } from './dom';
 import type { Instance, VNode } from './types';
+
+const isElementVNode = (vnode: VNode) => {
+  const isVNode = typeof vnode === 'object' &&
+    vnode !== null &&
+    vnode !== undefined &&
+    'kind' in vnode &&
+    vnode.kind === 'element';
+  
+  return isVNode && vnode.type !== Fragment;
+}
 
 /**
  * VNode から Instance ツリーを作りながら、実DOMを組み立てて container の末尾に入れる。
@@ -26,7 +37,20 @@ export function mount(vnode: VNode, container: HTMLElement): Instance {
 
   if (vnode.kind === 'element') {
     if (typeof vnode.type !== 'string') {
-      throw new Error('not implemented: mount element');
+      // string 以外は、関数Componentとなる
+      const rVnode = vnode.type(vnode.props);
+      if (!isElementVNode(rVnode)) {
+        throw new Error('コンポーネントは null を返せません');
+      }
+      const child = mount(rVnode, container);
+      return {
+        kind: 'component',
+        vnode,
+        hooks: [],
+        hookIndex: 0,
+        child,
+        container,
+      }
     }
     const dom = createDom(vnode);
     const children = vnode.props.children.map(child => mount(child, dom));
