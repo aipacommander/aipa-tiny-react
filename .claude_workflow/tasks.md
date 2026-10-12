@@ -55,7 +55,7 @@
 
 ## Step 3: 関数コンポーネント
 
-- [ ] T3-C 課題文・テスト・スケルトン（reconciler の component 分岐）
+- [x] T3-C 課題文・テスト・スケルトン（reconciler の component 分岐）
 - [ ] T3-U 実装
 - [ ] T3-R レビューと解説
 
@@ -120,14 +120,14 @@ microtask 後には DOM が最新になっている
 
 ## 進捗
 
-現在: **Step 2 完了。Step 3 の課題提示待ち**
+現在: **Step 3 実装中（ユーザーの番）**
 
 | Step | 状態 |
 |------|------|
 | 0 環境構築 | 完了 |
 | 1 createElement | 完了 |
 | 2 mount | 完了 |
-| 3 component | 未着手 |
+| 3 component | 課題提示済み・実装待ち |
 | 4 patch | 未着手 |
 | 5 key | 未着手 |
 | 6 useState | 未着手 |
