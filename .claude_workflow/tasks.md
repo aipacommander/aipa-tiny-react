@@ -64,7 +64,7 @@
 
 ## Step 4: 差分更新（diff / patch）
 
-- [ ] T4-C 課題文・テスト・スケルトン（`patch`, `unmount`, `getDom`）
+- [x] T4-C 課題文・テスト・スケルトン（`patch`, `unmount`, `getDom`）
 - [ ] T4-U 実装
 - [ ] T4-R レビューと解説
 
@@ -120,7 +120,7 @@ microtask 後には DOM が最新になっている
 
 ## 進捗
 
-現在: **Step 3 完了。Step 4 の課題提示待ち**
+現在: **Step 4 実装中（ユーザーの番）**
 
 | Step | 状態 |
 |------|------|
@@ -128,7 +128,7 @@ microtask 後には DOM が最新になっている
 | 1 createElement | 完了 |
 | 2 mount | 完了 |
 | 3 component | 完了 |
-| 4 patch | 未着手 |
+| 4 patch | 課題提示済み・実装待ち |
 | 5 key | 未着手 |
 | 6 useState | 未着手 |
 | 7 useEffect | 未着手 |

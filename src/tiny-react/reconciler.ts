@@ -65,3 +65,41 @@ export function mount(vnode: VNode, container: HTMLElement): Instance {
 
   throw new Error('未知の kind の VNode です');
 }
+
+/**
+ * 前回の Instance を、新しい VNode に合わせて更新し、更新後の Instance を返す。
+ *
+ * DOM をできるだけ作り直さないのが目的。判断ルールは設計書 §4 の表と
+ * docs/steps/04-patch.md を参照。
+ *
+ *   - 再利用できるとき: instance を書き換えて、同じ instance を返す
+ *   - 作り直すとき    : 新しい Instance を返す（古い DOM は取り除く。位置は保つこと）
+ *
+ * container は instance の DOM が入っている親要素。
+ */
+export function patch(instance: Instance, nextVNode: VNode, container: HTMLElement): Instance {
+  void instance;
+  void nextVNode;
+  void container;
+  throw new Error('not implemented: patch');
+}
+
+/**
+ * Instance が作った DOM を、親から取り除く。
+ *
+ * component は自分の DOM を持たないので、描画結果（child）の DOM が対象になる。
+ */
+export function unmount(instance: Instance): void {
+  void instance;
+  throw new Error('not implemented: unmount');
+}
+
+/**
+ * Instance に対応する実DOM を返す。
+ *
+ * component は自分の DOM を持たないので、child をたどって取得する。
+ */
+export function getDom(instance: Instance): HTMLElement | Text {
+  void instance;
+  throw new Error('not implemented: getDom');
+}

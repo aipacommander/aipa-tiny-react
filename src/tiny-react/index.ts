@@ -6,7 +6,7 @@ import { mount } from './reconciler';
 import type { Instance, VNode } from './types';
 
 export { createElement, Fragment } from './create-element';
-export { mount } from './reconciler';
+export { getDom, mount, patch, unmount } from './reconciler';
 export type {
   ComponentFn,
   ComponentProps,
@@ -21,8 +21,8 @@ export type {
 /**
  * vnode を container に描画する。
  *
- * Step 2 では「空の container に初めて描画する」場合だけを扱う。
- * 2 回目以降の描画（差分更新）は Step 4 で足す。
+ * 初回は mount、同じ container への 2 回目以降は、前回のルートの Instance と patch する（Step 4）。
+ * 前回のルートの Instance は、container ごとに覚えておく必要がある（設計書 §4）。
  *
  * container が要素でなければ、理由を書いた例外を投げる。
  */
