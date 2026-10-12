@@ -2,7 +2,8 @@
  * tiny-react の公開 API。
  * デモやテストからは、内部ファイルではなくここだけを import する。
  */
-import type { VNode } from './types';
+import { mount } from './reconciler';
+import type { Instance, VNode } from './types';
 
 export { createElement, Fragment } from './create-element';
 export { mount } from './reconciler';
@@ -25,8 +26,9 @@ export type {
  *
  * container が要素でなければ、理由を書いた例外を投げる。
  */
-export function render(vnode: VNode, container: HTMLElement): void {
-  void vnode;
-  void container;
-  throw new Error('not implemented: render');
+export function render(vnode: VNode, container: HTMLElement): Instance {
+  if (!(container instanceof HTMLElement)) {
+    throw new Error('container は HTMLElement でなければなりません');
+  }
+  return mount(vnode, container);
 }

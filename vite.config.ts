@@ -14,6 +14,8 @@ export default defineConfig({
       runtime: 'classic',
       pragma: 'createElement',
       pragmaFrag: 'Fragment',
+      // 既定では開発用に __self / __source が props に混ざり、DOM の属性になってしまう
+      development: false,
     },
   },
   test: {

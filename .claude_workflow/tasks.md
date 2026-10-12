@@ -47,8 +47,8 @@
 ## Step 2: 初回描画（mount）
 
 - [x] T2-C 課題文・テスト・スケルトン（`dom.ts`, `reconciler.ts` の mount, `index.ts` の render）
-- [ ] T2-U 実装
-- [ ] T2-R レビューと解説
+- [x] T2-U 実装
+- [x] T2-R レビューと解説
 
 検証内容: タグ生成 / テキストノード / 属性・`className` / `on*` イベント登録 / `style` オブジェクト /
 ネストした子要素 / `render()` で container に入ること
@@ -120,13 +120,13 @@ microtask 後には DOM が最新になっている
 
 ## 進捗
 
-現在: **Step 2 実装中（ユーザーの番）**
+現在: **Step 2 完了。Step 3 の課題提示待ち**
 
 | Step | 状態 |
 |------|------|
 | 0 環境構築 | 完了 |
 | 1 createElement | 完了 |
-| 2 mount | 課題提示済み・実装待ち |
+| 2 mount | 完了 |
 | 3 component | 未着手 |
 | 4 patch | 未着手 |
 | 5 key | 未着手 |

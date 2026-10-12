@@ -1,3 +1,4 @@
+import { createDom } from './dom';
 import type { Instance, VNode } from './types';
 
 /**
@@ -12,7 +13,30 @@ import type { Instance, VNode } from './types';
  * 仕様は docs/steps/02-mount.md と tests/02-mount.test.tsx を参照。
  */
 export function mount(vnode: VNode, container: HTMLElement): Instance {
-  void vnode;
-  void container;
-  throw new Error('not implemented: mount');
+  if (vnode.kind === 'text') {
+    const dom = document.createTextNode(vnode.text);
+    container.appendChild(dom);
+    return {
+      kind: 'text',
+      vnode,
+      dom,
+    };
+  }
+
+  if (vnode.kind === 'element') {
+    if (typeof vnode.type !== 'string') {
+      throw new Error('not implemented: mount element');
+    }
+    const dom = createDom(vnode);
+    const children = vnode.props.children.map(child => mount(child, dom));
+    container.appendChild(dom);
+    return {
+      kind: 'host',
+      vnode,
+      dom,
+      children,
+    }
+  }
+
+  throw new Error('未知の kind の VNode です');
 }

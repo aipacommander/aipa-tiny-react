@@ -9,8 +9,10 @@ import type { ElementVNode, Props } from './types';
  * 仕様は docs/steps/02-mount.md と tests/02-mount.test.tsx を参照。
  */
 export function createDom(vnode: ElementVNode): HTMLElement {
-  void vnode;
-  throw new Error('not implemented: createDom');
+  const dom = document.createElement(vnode.type as string);
+  updateDomProps(dom, vnode.props, vnode.props);
+
+  return dom;
 }
 
 /**
@@ -21,8 +23,26 @@ export function createDom(vnode: ElementVNode): HTMLElement {
  * 「変更・削除・イベントの張り替え」を同じ関数に足すため。
  */
 export function updateDomProps(dom: HTMLElement, prev: Props, next: Props): void {
-  void dom;
-  void prev;
-  void next;
-  throw new Error('not implemented: updateDomProps');
+  for (const [name, value] of Object.entries(next)) {
+    if (value === false || value === null || value === undefined) continue;
+    if(name === 'children' || name === 'key') continue;
+    if (/^on[A-Z]/.test(name)) {
+      const eventName = name.slice(2).toLowerCase();
+      dom.addEventListener(eventName, value as EventListener);
+      continue;
+    }
+    if (name === 'className') {
+      dom.setAttribute('class', String(value));
+      continue;
+    }
+    if (name === 'style') {
+      Object.assign(dom.style, value as Record<string, string>);
+      continue;
+    }
+    if (value === true) {
+      dom.setAttribute(name, '');
+      continue;
+    }
+    dom.setAttribute(name, String(value));
+  }
 }
